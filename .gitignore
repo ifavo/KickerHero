@@ -2,3 +2,4 @@ node_modules
 log
 pids
 db/*
+public/bower_components
