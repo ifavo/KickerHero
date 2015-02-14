@@ -304,6 +304,11 @@ exports.gameList = {
   run: function(api, connection, next) {
 	api.models.Game
       .findAll({
+        where: {
+          end: {
+            lte: new Date()
+          }
+        },
         order: connection.params.order || "id",
         limit: connection.params.limit || 100,
         offset: connection.params.offset || 0

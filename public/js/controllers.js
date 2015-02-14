@@ -10,12 +10,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
    * start a new game
    */
   $scope.startGame = function () {
-    client.action('game/start', {player1: $scope.player1.id, player2: $scope.player2.id}, function(err, data){
-      try {
-        data = JSON.parse(data);
-      }
-      catch (e) {
-      }
+    client.action('game/start', {player1: $scope.player1.id, player2: $scope.player2.id}, function(data){
       if ( data.error ) {
         return alert(data.error);
       }
@@ -27,7 +22,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
    * cancel an active game
    */
   $scope.cancelGame = function () {
-    client.action('game/cancel', {player1: $scope.player1.id, player2: $scope.player2.id}, function(err, data){
+    client.action('game/cancel', {player1: $scope.player1.id, player2: $scope.player2.id}, function(data){
     });
   };
   
@@ -67,7 +62,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
    * called regularly to update the countdown and current game status
    */
   function countdown () {
-    client.action('game/current', function(err, data){
+    client.action('game/current', function(data){
     
       // reset activeGame on errors
       if ( !data || !data.game ) {
@@ -95,7 +90,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
 
       // update goal listing when results change
       if ( !$scope.lastGame || data.game.goals1 != $scope.lastGame.goals1 || data.game.goals2 != $scope.lastGame.goals2 ) {
-        client.action('goal/list', {id: data.game.id}, function(err, data) {
+        client.action('goal/list', {id: data.game.id}, function(data) {
           if ( data && data.goals ) {
             $scope.goals = data.goals;
           }
@@ -112,7 +107,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
    * fetch the latest games
    */
   function updateHistory () {
-    client.action('game/list', {order: "start desc", limit: 10}, function (err, data) {
+    client.action('game/list', {order: "start desc", limit: 10}, function (data) {
       $scope.history = data.games;
     });
   }
@@ -130,25 +125,30 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
    * fetch some data and start the interval when the document is ready
    */
   angular.element(document).ready(function () {
-  
-    /**
-     * fetch the available player list
-     */
-    client.action('player/list', function (err, data) {
-      $scope.$apply(function () {
-        $scope.players = data.players;
+    client.connect(function(err, details){
+      if ( !err ) {
+        /**
+         * fetch the available player list
+         */
+        client.roomAdd("defaultRoom");
+        client.action('player/list', function (data) {
+          $scope.$apply(function () {
+            $scope.players = data.players;
       
-        angular.forEach(data.players, function (v, k) {
-          $scope.playerById[v.id] = v;
+            angular.forEach(data.players, function (v, k) {
+              $scope.playerById[v.id] = v;
+            });
+
+            // update last played games
+            updateHistory();
+
+          });
         });
-      });
+
+        // countdown interval
+        $interval(countdown, 1000);
+      }
     });
-
-    // update last played games
-    updateHistory();
-
-    // countdown interval
-    $interval(countdown, 1000);
   });
 
 }]);
