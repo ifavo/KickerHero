@@ -249,3 +249,56 @@ exports.gameCancel = {
     }
   }
 };
+
+
+
+/**
+ * list old games
+ */
+exports.gameList = {
+  name: 'game/list',
+  description: 'list old games',
+
+  outputExample:
+	{
+	  "games": [
+		{
+		  "id": 1,
+		  "start": null,
+		  "end": "2015-02-14T14:21:45.325Z",
+		  "player1": null,
+		  "player2": null,
+		  "createdAt": "2015-02-14T14:07:47.000Z",
+		  "updatedAt": "2015-02-14T14:21:45.000Z"
+		},
+		{
+		  "id": 2,
+		  "start": null,
+		  "end": "2015-02-14T14:21:47.756Z",
+		  "player1": 1,
+		  "player2": 2,
+		  "createdAt": "2015-02-14T14:08:16.000Z",
+		  "updatedAt": "2015-02-14T14:21:47.000Z"
+		}
+	  ]
+	}
+  ,
+
+  run: function(api, connection, next) {
+	api.models.Game
+      .findAll()
+      .then(responseSuccess, responseError)
+      .finally(function() {
+        next(connection, true);
+      });
+
+    function responseSuccess(rows) {
+        connection.response.games = rows;
+    }
+
+    function responseError(err) {
+        api.log('Could not read games', 'error');
+        connection.error = err;
+    }
+  }
+};
