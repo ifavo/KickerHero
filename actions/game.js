@@ -51,6 +51,8 @@ exports.gameStart = {
 		"id": 18,
 		"player1": "14",
 		"player2": "15",
+		"goals1": "0",
+		"goals2": "1",
 		"start": "2015-02-14T14:41:56.745Z",
 		"end": "2015-02-14T14:46:56.745Z",
 		"updatedAt": "2015-02-14T14:41:56.000Z",
@@ -113,6 +115,8 @@ exports.gameStart = {
 		var newGame = {
 			player1: connection.params.player1,
 			player2: connection.params.player2,
+			goals1: 0,
+			goals2: 0,
 			start: start,
 			end: new Date(start.getTime() + 5*60*1000)
 		};
@@ -166,6 +170,8 @@ exports.gameRead = {
 		"end": "2015-02-14T14:46:56.745Z",
 		"player1": 14,
 		"player2": 15,
+		"goals1": "0",
+		"goals2": "1",
 		"createdAt": "2015-02-14T14:41:56.000Z",
 		"updatedAt": "2015-02-14T14:41:56.000Z"
 	  }
@@ -208,6 +214,8 @@ exports.gameCancel = {
 		"end": "2015-02-14T14:42:31.603Z",
 		"player1": 14,
 		"player2": 15,
+		"goals1": "0",
+		"goals2": "1",
 		"createdAt": "2015-02-14T14:41:56.000Z",
 		"updatedAt": "2015-02-14T14:42:31.000Z"
 	  }
@@ -259,6 +267,11 @@ exports.gameList = {
   name: 'game/list',
   description: 'list old games',
 
+  inputs: {
+    order: {},
+    limit: {},
+    offset: {}
+  },
   outputExample:
 	{
 	  "games": [
@@ -268,6 +281,8 @@ exports.gameList = {
 		  "end": "2015-02-14T14:21:45.325Z",
 		  "player1": null,
 		  "player2": null,
+		  "goals1": "0",
+		  "goals2": "1",
 		  "createdAt": "2015-02-14T14:07:47.000Z",
 		  "updatedAt": "2015-02-14T14:21:45.000Z"
 		},
@@ -277,6 +292,8 @@ exports.gameList = {
 		  "end": "2015-02-14T14:21:47.756Z",
 		  "player1": 1,
 		  "player2": 2,
+		  "goals1": "0",
+		  "goals2": "1",
 		  "createdAt": "2015-02-14T14:08:16.000Z",
 		  "updatedAt": "2015-02-14T14:21:47.000Z"
 		}
@@ -286,7 +303,11 @@ exports.gameList = {
 
   run: function(api, connection, next) {
 	api.models.Game
-      .findAll()
+      .findAll({
+        order: connection.params.order || "id",
+        limit: connection.params.limit || 100,
+        offset: connection.params.offset || 0
+      })
       .then(responseSuccess, responseError)
       .finally(function() {
         next(connection, true);
@@ -298,6 +319,58 @@ exports.gameList = {
 
     function responseError(err) {
         api.log('Could not read games', 'error');
+        connection.error = err;
+    }
+  }
+};
+
+
+
+/**
+ * get currently active game
+ */
+exports.gameCurrent = {
+  name: 'game/current',
+  description: 'get currently active game',
+
+  outputExample:
+	{
+	  "game": {
+		"id": 18,
+		"start": "2015-02-14T14:41:56.745Z",
+		"end": "2015-02-14T14:46:56.745Z",
+		"player1": 14,
+		"player2": 15,
+		"goals1": "0",
+		"goals2": "1",
+		"createdAt": "2015-02-14T14:41:56.000Z",
+		"updatedAt": "2015-02-14T14:41:56.000Z"
+	  }
+	}
+  ,
+
+  run: function(api, connection, next) {
+	api.models.Game
+      .findOne({
+        where: {
+          end: {
+            gte: new Date()
+          }
+        }
+      })
+      .then(responseSuccess, responseError)
+      .finally(function() {
+        next(connection, true);
+      });
+
+    function responseSuccess(game) {
+        // calculate seconds left to play and add to output
+        connection.response.countdown = Math.floor((new Date(game.end) - new Date())/1000);
+        connection.response.game = game;
+    }
+
+    function responseError(err) {
+        api.log('Could not find an active game', 'error');
         connection.error = err;
     }
   }

@@ -9,7 +9,9 @@ module.exports = function(sequelize, DataTypes) {
     start: DataTypes.DATE,
     end: DataTypes.DATE,
     player1: DataTypes.INTEGER,
-    player2: DataTypes.INTEGER
+    player2: DataTypes.INTEGER,
+    goals1: DataTypes.INTEGER,
+    goals2: DataTypes.INTEGER
 
   }, {
     indexes: [

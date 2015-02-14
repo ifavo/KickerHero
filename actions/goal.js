@@ -50,17 +50,27 @@ exports.goalAdd = {
         }
 
 		// add goal
-		var start = new Date();
-		var newGoal = {
-			game_id: game.id,
-			time: new Date(),
-			goal_player: connection.params.side
-		};
+		if ( connection.params.side == 1 ) {
+		  game.goals1++;
+		}
+		else if ( connection.params.side == 2 ) {
+		  game.goals2++;
+		}
+		
+		game.save()
+		  .then(function () {
+			var start = new Date();
+			var newGoal = {
+				game_id: game.id,
+				time: new Date(),
+				goal_player: connection.params.side
+			};
 
-		api.models.Goal
-		  .create(newGoal)
-		  .then(responseSuccess, responseError)
-		  ;
+			api.models.Goal
+			  .create(newGoal)
+			  .then(responseSuccess, responseError)
+			  ;
+			}, responseError);
 	}
 
     function responseSuccess(goal) {
