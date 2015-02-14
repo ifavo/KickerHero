@@ -5,7 +5,7 @@
  */
 exports.gameStart = {
   name: 'game/start',
-  description: 'start a new game between two players (validates the players participating 6 and makes sure that there is always only one active game)',
+  description: 'start a new game between two players (validates the players participating & and makes sure that there is always only one active game)',
 
   inputs: {
     player1: {
