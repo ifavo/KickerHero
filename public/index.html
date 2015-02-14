@@ -43,6 +43,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
+        <h3>Scores</h3>
         <ul>
          <li data-ng-repeat="goal in goals">{{goal.goal_player == 1 ? player1.name : player2.name}} at {{goal.time}}</li>
         </ul>
@@ -50,7 +51,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <b>Last Games</b>
+        <h3>Last Games</h3>
         <ul>
          <li data-ng-repeat="game in history">{{game.goals1}}:{{game.goals2}} {{playerById[game.player1].name}} vs. {{playerById[game.player2].name}} at {{game.start}}</li>
         </ul>

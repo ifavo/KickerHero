@@ -365,7 +365,7 @@ exports.gameCurrent = {
 
     function responseSuccess(game) {
         // calculate seconds left to play and add to output
-        connection.response.countdown = Math.floor((new Date(game.end) - new Date())/1000);
+        connection.response.countdown = (game && game.end) ? Math.floor((new Date(game.end) - new Date())/1000) : 0;
         connection.response.game = game;
     }
 

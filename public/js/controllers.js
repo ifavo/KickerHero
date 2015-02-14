@@ -73,7 +73,9 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
       if ( !data || !data.game ) {
 
         // if there was an active game, mark this as the result
-        gameEnd();
+        if ( $scope.activeGame ) {
+          gameEnd();
+        }
         $scope.activeGame = null;
         return;
       }
