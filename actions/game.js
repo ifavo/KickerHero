@@ -5,10 +5,7 @@
  */
 exports.gameStart = {
   name: 'game/start',
-  description: 'start a new game between two players\
-				- validates the players participating\
-				- and makes sure that there is always only one active game\
-			',
+  description: 'start a new game between two players (validates the players participating 6 and makes sure that there is always only one active game)',
 
   inputs: {
     player1: {
@@ -34,8 +31,33 @@ exports.gameStart = {
       }
     }  
   },
-  outputExample:{
-  },
+  outputExample:
+	{
+	  "players": [
+		{
+		  "id": 14,
+		  "name": "first player",
+		  "createdAt": "2015-02-14T14:41:18.000Z",
+		  "updatedAt": "2015-02-14T14:41:18.000Z"
+		},
+		{
+		  "id": 15,
+		  "name": "second player",
+		  "createdAt": "2015-02-14T14:41:20.000Z",
+		  "updatedAt": "2015-02-14T14:41:20.000Z"
+		}
+	  ],
+	  "game": {
+		"id": 18,
+		"player1": "14",
+		"player2": "15",
+		"start": "2015-02-14T14:41:56.745Z",
+		"end": "2015-02-14T14:46:56.745Z",
+		"updatedAt": "2015-02-14T14:41:56.000Z",
+		"createdAt": "2015-02-14T14:41:56.000Z"
+	  }
+	}
+   ,
 
   run: function(api, connection, next) {
   
@@ -136,8 +158,19 @@ exports.gameRead = {
       }
     }
   },
-  outputExample:{
-  },
+  outputExample:
+	{
+	  "game": {
+		"id": 18,
+		"start": "2015-02-14T14:41:56.745Z",
+		"end": "2015-02-14T14:46:56.745Z",
+		"player1": 14,
+		"player2": 15,
+		"createdAt": "2015-02-14T14:41:56.000Z",
+		"updatedAt": "2015-02-14T14:41:56.000Z"
+	  }
+	}
+  ,
 
   run: function(api, connection, next) {
 	api.models.Game
@@ -167,8 +200,19 @@ exports.gameCancel = {
   name: 'game/cancel',
   description: 'cancel a currently running game by setting the end time to now',
 
-  outputExample:{
-  },
+  outputExample:
+	{
+	  "game": {
+		"id": 18,
+		"start": "2015-02-14T14:41:56.745Z",
+		"end": "2015-02-14T14:42:31.603Z",
+		"player1": 14,
+		"player2": 15,
+		"createdAt": "2015-02-14T14:41:56.000Z",
+		"updatedAt": "2015-02-14T14:42:31.000Z"
+	  }
+	}
+  ,
 
   run: function(api, connection, next) {
   

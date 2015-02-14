@@ -17,8 +17,18 @@ exports.goalAdd = {
       }
     }
   },
-  outputExample:{
-  },
+  outputExample:
+	{
+	  "goal": {
+		"id": 2,
+		"game_id": 15,
+		"time": "2015-02-14T14:29:08.051Z",
+		"goal_player": "1",
+		"updatedAt": "2015-02-14T14:29:08.000Z",
+		"createdAt": "2015-02-14T14:29:08.000Z"
+	  }
+	}
+  ,
 
   run: function(api, connection, next) {
   
@@ -89,8 +99,36 @@ exports.goalList = {
       }
     }  
   },
-  outputExample:{
-  },
+  outputExample:
+	{
+	  "goals": [
+		{
+		  "id": 6,
+		  "game_id": 19,
+		  "time": "2015-02-14T14:43:08.113Z",
+		  "goal_player": 2,
+		  "createdAt": "2015-02-14T14:43:08.000Z",
+		  "updatedAt": "2015-02-14T14:43:08.000Z"
+		},
+		{
+		  "id": 7,
+		  "game_id": 19,
+		  "time": "2015-02-14T14:43:26.922Z",
+		  "goal_player": 2,
+		  "createdAt": "2015-02-14T14:43:26.000Z",
+		  "updatedAt": "2015-02-14T14:43:26.000Z"
+		},
+		{
+		  "id": 8,
+		  "game_id": 19,
+		  "time": "2015-02-14T14:43:36.793Z",
+		  "goal_player": 1,
+		  "createdAt": "2015-02-14T14:43:36.000Z",
+		  "updatedAt": "2015-02-14T14:43:36.000Z"
+		}
+	  ]
+    }
+  ,
 
   run: function(api, connection, next) {
   

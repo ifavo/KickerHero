@@ -9,7 +9,7 @@ exports.playerAdd = {
     name: {
       required: true,
       validator: function(param) {
-        if ( /[^0-9A-Z]/i.test(param) ) {
+        if ( /[^0-9 A-Z]/i.test(param) ) {
           return new Error('name is not alphanumeric');
         }
         else {
@@ -18,8 +18,16 @@ exports.playerAdd = {
       }
     }
   },
-  outputExample:{
-  },
+  outputExample: 
+	{
+	  "player": {
+		"id": 12,
+		"name": "a player",
+		"updatedAt": "2015-02-14T14:39:10.000Z",
+		"createdAt": "2015-02-14T14:39:10.000Z"
+	  }
+	}
+  ,
 
   run: function(api, connection, next) {
     var newPlayer = {
@@ -65,8 +73,16 @@ exports.playerRead = {
       }
     }
   },
-  outputExample:{
-  },
+  outputExample:
+	{
+	  "player": {
+		"id": 12,
+		"name": "a player",
+		"createdAt": "2015-02-14T14:39:10.000Z",
+		"updatedAt": "2015-02-14T14:39:10.000Z"
+	  }
+	}
+  ,
 
   run: function(api, connection, next) {
 	api.models.Player
@@ -108,8 +124,16 @@ exports.playerRemove = {
       }
     }
   },
-  outputExample:{
-  },
+  outputExample:
+	{
+	  "player": {
+		"id": 12,
+		"name": "a player",
+		"createdAt": "2015-02-14T14:39:10.000Z",
+		"updatedAt": "2015-02-14T14:39:10.000Z"
+	  }
+	}
+  ,
 
   run: function(api, connection, next) {
 	api.models.Player
@@ -147,8 +171,24 @@ exports.playerList = {
   name: 'player/list',
   description: 'list all players',
 
-  outputExample:{
-  },
+  outputExample:
+	{
+	  "players": [
+		{
+		  "id": 8,
+		  "name": "test",
+		  "createdAt": "2015-02-14T13:50:18.000Z",
+		  "updatedAt": "2015-02-14T13:50:18.000Z"
+		},
+		{
+		  "id": 9,
+		  "name": "test",
+		  "createdAt": "2015-02-14T13:54:11.000Z",
+		  "updatedAt": "2015-02-14T13:54:11.000Z"
+		}
+	  ]
+	}
+  ,
 
   run: function(api, connection, next) {
 	api.models.Player
