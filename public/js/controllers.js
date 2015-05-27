@@ -3,7 +3,9 @@ var kickerApp = angular.module('Kicker', []);
 kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $interval) {
 
   // init our actionhero client
-  var client = new ActionheroClient();
+  var client = new ActionheroClient({
+    url: 'http://gitlab.xmini.org:8888'
+  });
   $scope.playerById = {};
 
   /**
@@ -16,8 +18,8 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
       }
     });
   };
-  
-  
+
+
   /**
    * cancel an active game
    */
@@ -25,8 +27,8 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
     client.action('game/cancel', {player1: $scope.player1.id, player2: $scope.player2.id}, function(data){
     });
   };
-  
-  
+
+
   /**
    * listen for goal changes of player1
    * @param {Number} newVal new goal value
@@ -37,7 +39,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
       console.log($scope.player1, "shot a goal");
     }
   });
-  
+
   /**
    * listen for goal changes of player2
    * @param {Number} newVal new goal value
@@ -48,7 +50,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
       console.log($scope.player2, "shot a goal");
     }
   });
-  
+
   /**
    * called in the end to display the final results
    * access game data in $scope.activeGame
@@ -57,13 +59,13 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
     // update the last played games
     updateHistory();
   }
-  
+
   /**
    * called regularly to update the countdown and current game status
    */
   function countdown () {
     client.action('game/current', function(data){
-    
+
       // reset activeGame on errors
       if ( !data || !data.game ) {
 
@@ -101,8 +103,8 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
       $scope.countdown = data.countdown;
     });
   }
-  
-  
+
+
   /**
    * fetch the latest games
    */
@@ -111,7 +113,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
       $scope.history = data.games;
     });
   }
-  
+
   /**
    * helper function to format countdown numbers
    * @param {Number} n
@@ -134,7 +136,7 @@ kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $i
         client.action('player/list', function (data) {
           $scope.$apply(function () {
             $scope.players = data.players;
-      
+
             angular.forEach(data.players, function (v, k) {
               $scope.playerById[v.id] = v;
             });
