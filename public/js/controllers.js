@@ -3,9 +3,7 @@ var kickerApp = angular.module('Kicker', []);
 kickerApp.controller('DisplayCtrl', ['$scope', '$interval', function ($scope, $interval) {
 
   // init our actionhero client
-  var client = new ActionheroClient({
-    url: 'http://gitlab.xmini.org:8888'
-  });
+  var client = new ActionheroClient();
   $scope.playerById = {};
 
   /**
