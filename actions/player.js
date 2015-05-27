@@ -18,7 +18,7 @@ exports.playerAdd = {
       }
     }
   },
-  outputExample: 
+  outputExample:
 	{
 	  "player": {
 		"id": 12,
@@ -38,7 +38,7 @@ exports.playerAdd = {
       .create(newPlayer)
       .then(responseSuccess, responseError)
       .finally(function() {
-        next(connection, true);
+        next();
       });
 
     function responseSuccess(player) {
@@ -89,7 +89,7 @@ exports.playerRead = {
       .findOne(connection.params.id)
       .then(responseSuccess, responseError)
       .finally(function() {
-        next(connection, true);
+        next();
       });
 
     function responseSuccess(player) {
@@ -152,13 +152,13 @@ exports.playerRemove = {
 
     function responseSuccess(player) {
         connection.response.player = player;
-        next(connection, true);
+        next();
     }
 
     function responseError(err) {
         api.log('Could not create remove player ' + connection.params.id, 'error');
         connection.error = err;
-        next(connection, true);
+        next();
     }
   }
 };
@@ -195,7 +195,7 @@ exports.playerList = {
       .findAll()
       .then(responseSuccess, responseError)
       .finally(function() {
-        next(connection, true);
+        next();
       });
 
     function responseSuccess(rows) {

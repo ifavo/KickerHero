@@ -31,7 +31,7 @@ exports.goalAdd = {
   ,
 
   run: function(api, connection, next) {
-  
+
     // check if a game is currently running
     api.models.Game
       .findOne({
@@ -56,7 +56,7 @@ exports.goalAdd = {
 		else if ( connection.params.side == 2 ) {
 		  game.goals2++;
 		}
-		
+
 		game.save()
 		  .then(function () {
 			var start = new Date();
@@ -75,13 +75,13 @@ exports.goalAdd = {
 
     function responseSuccess(goal) {
         connection.response.goal = goal;
-        next(connection, true);
+        next();
     }
 
     function responseError(err) {
         api.log('Could not create new goal', 'error');
         connection.error = err;
-        next(connection, true);
+        next();
     }
 
   }
@@ -107,7 +107,7 @@ exports.goalList = {
           return true;
         }
       }
-    }  
+    }
   },
   outputExample:
 	{
@@ -141,7 +141,7 @@ exports.goalList = {
   ,
 
   run: function(api, connection, next) {
-  
+
     // check if a game is currently running
     api.models.Goal
       .findAll({
@@ -152,7 +152,7 @@ exports.goalList = {
       })
       .then(responseSuccess, responseError)
       .finally(function() {
-        next(connection, true);
+        next();
       });
 
     function responseSuccess(goals) {

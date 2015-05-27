@@ -29,7 +29,7 @@ exports.gameStart = {
           return true;
         }
       }
-    }  
+    }
   },
   outputExample:
 	{
@@ -62,7 +62,7 @@ exports.gameStart = {
    ,
 
   run: function(api, connection, next) {
-  
+
     // check if a game is already running
     api.models.Game
       .findOne({
@@ -97,7 +97,7 @@ exports.gameStart = {
 		  .then(playerValidation, responseError)
 		  ;
 	}
-      
+
     function playerValidation (players) {
         if ( players.length == 2 ) {
             connection.response.players = players;
@@ -129,13 +129,13 @@ exports.gameStart = {
 
     function responseSuccess(game) {
         connection.response.game = game;
-        next(connection, true);
+        next();
     }
 
     function responseError(err) {
         api.log('Could not create new game', 'error');
         connection.error = err;
-        next(connection, true);
+        next();
     }
 
   }
@@ -183,7 +183,7 @@ exports.gameRead = {
       .findOne(connection.params.id)
       .then(responseSuccess, responseError)
       .finally(function() {
-        next(connection, true);
+        next();
       });
 
     function responseSuccess(game) {
@@ -223,7 +223,7 @@ exports.gameCancel = {
   ,
 
   run: function(api, connection, next) {
-  
+
     // check if a game is already running
     api.models.Game
       .findOne({
@@ -234,12 +234,12 @@ exports.gameCancel = {
         }
       })
       .then(gameValidation, responseError);
-    
+
     function gameValidation (game) {
         if ( !game ) {
           return responseError("could not find an active game");
         }
-        
+
         game.end = new Date();
         game.save()
           .then(responseSuccess, responseError);
@@ -247,13 +247,13 @@ exports.gameCancel = {
 
     function responseSuccess(game) {
         connection.response.game = game;
-        next(connection, true);
+        next();
     }
 
     function responseError(err) {
         api.log('Could not cancel a game', 'error');
         connection.error = err;
-        next(connection, true);
+        next();
     }
   }
 };
@@ -315,7 +315,7 @@ exports.gameList = {
       })
       .then(responseSuccess, responseError)
       .finally(function() {
-        next(connection, true);
+        next();
       });
 
     function responseSuccess(rows) {
@@ -365,7 +365,7 @@ exports.gameCurrent = {
       })
       .then(responseSuccess, responseError)
       .finally(function() {
-        next(connection, true);
+        next();
       });
 
     function responseSuccess(game) {

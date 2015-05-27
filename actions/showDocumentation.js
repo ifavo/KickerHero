@@ -3,25 +3,25 @@ exports.showDocumentation = {
   description: 'return API documentation',
 
   outputExample:{
-    "documentation":{  
-      "cacheTest":{  
-        "1":{  
+    "documentation":{
+      "cacheTest":{
+        "1":{
           "name":"cacheTest",
           "version":1,
           "description":"I will test the internal cache functions of the API",
-          "inputs":{  
-            "key":{  
+          "inputs":{
+            "key":{
               "required":true
             },
-            "value":{  
+            "value":{
               "required":true
             }
           },
-          "outputExample":{  
-            "cacheTestResults":{  
+          "outputExample":{
+            "cacheTestResults":{
               "saveResp":true,
               "sizeResp":1,
-              "loadResp":{  
+              "loadResp":{
                 "key":"cacheTest_key",
                 "value":"value",
                 "expireTimestamp":1420953274716,
@@ -33,47 +33,47 @@ exports.showDocumentation = {
           }
         }
       },
-      "randomNumber":{  
-        "1":{  
+      "randomNumber":{
+        "1":{
           "name":"randomNumber",
           "version":1,
           "description":"I am an API method which will generate a random number",
-          "inputs":{  
+          "inputs":{
 
           },
-          "outputExample":{  
+          "outputExample":{
             "randomNumber":0.123
           }
         }
       },
-      "showDocumentation":{  
-        "1":{  
+      "showDocumentation":{
+        "1":{
           "name":"showDocumentation",
           "version":1,
           "description":"return API documentation",
-          "inputs":{  
+          "inputs":{
 
           }
         }
       },
-      "sleepTest":{  
-        "1":{  
+      "sleepTest":{
+        "1":{
           "name":"sleepTest",
           "version":1,
           "description":"I will sleep and then return",
-          "inputs":{  
-            "sleepDuration":{  
+          "inputs":{
+            "sleepDuration":{
               "required":true
             }
           }
         }
       },
-      "status":{  
-        "1":{  
+      "status":{
+        "1":{
           "name":"status",
           "version":1,
           "description":"I will return some basic information about the API",
-          "inputs":{  
+          "inputs":{
 
           }
         }
@@ -81,8 +81,8 @@ exports.showDocumentation = {
     }
   },
 
-  run: function(api, connection, next){    
+  run: function(api, connection, next){
     connection.response.documentation = api.documentation.documentation;
-    next(connection, true);
+    next();
   }
 };

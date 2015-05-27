@@ -3,3 +3,7 @@ log
 pids
 db/*
 public/bower_components
+config/servers/web.js
+config/servers/websocket.js
+public/js/kickerClient.js
+public/js/kickerClient.min.js
